@@ -2,17 +2,20 @@
 <html>
 
 <head>
-
 <meta charset="UTF-8">
-
 <title>LAB QR V2</title>
 
-<script src="https://unpkg
+<script/unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js
+
+</head>
+
 <body>
 
 <h1>LAB QR V2</h1>
 
 <div id="reader" style="width:350px;"></div>
+
+<br>
 
 <h3>Resultado:</h3>
 
@@ -22,48 +25,41 @@ Esperando lectura...
 
 <script>
 
-const html5QrCode =
-  new Html5Qrcode("reader");
+const html5QrCode = new Html5Qrcode("reader");
 
-Html5Qrcode
-  .getCameras()
-  .then(devices => {
+Html5Qrcode.getCameras()
+.then(devices => {
 
-    if (devices && devices.length) {
+  if (devices && devices.length) {
 
-      html5QrCode.start(
+    html5QrCode.start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      (decodedText) => {
 
-        { facingMode: "environment" },
+        document.getElementById("resultado").innerHTML =
+          decodedText;
 
-        {
-          fps: 10,
-          qrbox: 250
-        },
+      },
+      (errorMessage) => {
+      }
+    );
 
-        qrCodeMessage => {
+  }
 
-          document
-            .getElementById("resultado")
-            .innerHTML = qrCodeMessage;
+})
+.catch(err => {
 
-        },
+  document.getElementById("resultado").innerHTML =
+    "ERROR: " + err;
 
-        errorMessage => {
-
-        }
-
-      );
-
-    }
-
-  })
-  .catch(err => {
-
-    alert(err);
-
-  });
+});
 
 </script>
 
 </body>
 </html>
+`
