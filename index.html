@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>LAB QR V2</title>
 
-<script/unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 </head>
 
@@ -14,8 +13,6 @@
 <h1>LAB QR V2</h1>
 
 <div id="reader" style="width:350px;"></div>
-
-<br>
 
 <h3>Resultado:</h3>
 
@@ -28,38 +25,38 @@ Esperando lectura...
 const html5QrCode = new Html5Qrcode("reader");
 
 Html5Qrcode.getCameras()
-.then(devices => {
+  .then(devices => {
 
-  if (devices && devices.length) {
+    if (devices.length > 0) {
 
-    html5QrCode.start(
-      { facingMode: "environment" },
-      {
-        fps: 10,
-        qrbox: 250
-      },
-      (decodedText) => {
+      html5QrCode.start(
+        devices[0].id,
+        {
+          fps: 10,
+          qrbox: 250
+        },
+        (decodedText) => {
 
-        document.getElementById("resultado").innerHTML =
-          decodedText;
+          document.getElementById("resultado").innerHTML =
+            decodedText;
 
-      },
-      (errorMessage) => {
-      }
-    );
+        },
+        (errorMessage) => {
+          // Ignorar errores de lectura
+        }
+      );
 
-  }
+    }
 
-})
-.catch(err => {
+  })
+  .catch(err => {
 
-  document.getElementById("resultado").innerHTML =
-    "ERROR: " + err;
+    document.getElementById("resultado").innerHTML =
+      "ERROR: " + err;
 
-});
+  });
 
 </script>
 
 </body>
 </html>
-`
