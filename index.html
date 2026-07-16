@@ -3,15 +3,15 @@
 
 <head>
 <meta charset="UTF-8">
-<title>LAB QR V3</title>
+<title>LAB QR V4</title>
 
-://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://unpkgcode@2.3.8/html5-qrcode.min.js
 
 </head>
 
 <body>
 
-<h1>LAB QR V3</h1>
+<h1>LAB QR V4</h1>
 
 <div id="reader" style="width:350px;"></div>
 
@@ -26,59 +26,35 @@ Esperando lectura...
 const html5QrCode = new Html5Qrcode("reader");
 
 Html5Qrcode.getCameras()
-  .then(devices => {
+.then(devices => {
 
     if (devices.length > 0) {
 
-      let camaraSeleccionada = devices[0];
+        html5QrCode.start(
+            devices[0].id,
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            (decodedText) => {
 
-      for (let i = 0; i < devices.length; i++) {
+                document.getElementById("resultado").innerHTML =
+                    decodedText;
 
-        const nombre =
-          (devices[i].label || "").toLowerCase();
-
-        if (
-          nombre.includes("back") ||
-          nombre.includes("rear") ||
-          nombre.includes("environment")
-        ) {
-          camaraSeleccionada = devices[i];
-          break;
-        }
-
-      }
-
-      html5QrCode.start(
-        camaraSeleccionada.id,
-        {
-          fps: 10,
-          qrbox: 250
-        },
-        (decodedText) => {
-
-          document.getElementById("resultado").innerHTML =
-            decodedText;
-
-        },
-        (errorMessage) => {
-          // Ignorar errores de lectura
-        }
-      );
-
-    } else {
-
-      document.getElementById("resultado").innerHTML =
-        "No se encontraron cámaras.";
+            },
+            (errorMessage) => {
+            }
+        );
 
     }
 
-  })
-  .catch(err => {
+})
+.catch(err => {
 
     document.getElementById("resultado").innerHTML =
-      "ERROR: " + err;
+        "ERROR: " + err;
 
-  });
+});
 
 </script>
 
