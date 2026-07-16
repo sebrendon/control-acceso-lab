@@ -1,57 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>LAB QR</title>
-</head>
 
+<head>
+
+<meta charset="UTF-8">
+
+<title>LAB QR V2</title>
+
+<script src="https://unpkg
 <body>
 
-<h1>LAB QR V1</h1>
+<h1>LAB QR V2</h1>
 
-<button id="btnCamara">
-Abrir Cámara
-</button>
+<div id="reader" style="width:350px;"></div>
 
-<br><br>
+<h3>Resultado:</h3>
 
-<video
-  id="video"
-  autoplay
-  playsinline
-  style="width:100%;max-width:400px;border:1px solid black;">
-</video>
+<div id="resultado">
+Esperando lectura...
+</div>
 
 <script>
 
-document
-  .getElementById("btnCamara")
-  .addEventListener("click", async () => {
+const html5QrCode =
+  new Html5Qrcode("reader");
 
-    try {
+Html5Qrcode
+  .getCameras()
+  .then(devices => {
 
-      const stream =
-        await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: "environment"
-          }
-        });
+    if (devices && devices.length) {
 
-      document
-        .getElementById("video")
-        .srcObject = stream;
+      html5QrCode.start(
 
-      alert("CAMARA ABIERTA");
+        { facingMode: "environment" },
 
-    }
-    catch(error){
+        {
+          fps: 10,
+          qrbox: 250
+        },
 
-      alert(
-        "ERROR: " +
-        error.message
+        qrCodeMessage => {
+
+          document
+            .getElementById("resultado")
+            .innerHTML = qrCodeMessage;
+
+        },
+
+        errorMessage => {
+
+        }
+
       );
 
     }
+
+  })
+  .catch(err => {
+
+    alert(err);
 
   });
 
