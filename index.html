@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LAB QR</title>
+</head>
+
+<body>
+
+<h1>LAB QR V1</h1>
+
+<button id="btnCamara">
+Abrir Cámara
+</button>
+
+<br><br>
+
+<video
+  id="video"
+  autoplay
+  playsinline
+  style="width:100%;max-width:400px;border:1px solid black;">
+</video>
+
+<script>
+
+document
+  .getElementById("btnCamara")
+  .addEventListener("click", async () => {
+
+    try {
+
+      const stream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "environment"
+          }
+        });
+
+      document
+        .getElementById("video")
+        .srcObject = stream;
+
+      alert("CAMARA ABIERTA");
+
+    }
+    catch(error){
+
+      alert(
+        "ERROR: " +
+        error.message
+      );
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
