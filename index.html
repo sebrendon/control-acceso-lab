@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
-<title>LAB QR V2</title>
+<title>LAB QR V3</title>
 
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 </head>
 
 <body>
 
-<h1>LAB QR V2</h1>
+<h1>LAB QR V3</h1>
 
 <div id="reader" style="width:350px;"></div>
 
@@ -29,8 +30,26 @@ Html5Qrcode.getCameras()
 
     if (devices.length > 0) {
 
+      let camaraSeleccionada = devices[0];
+
+      for (let i = 0; i < devices.length; i++) {
+
+        const nombre =
+          (devices[i].label || "").toLowerCase();
+
+        if (
+          nombre.includes("back") ||
+          nombre.includes("rear") ||
+          nombre.includes("environment")
+        ) {
+          camaraSeleccionada = devices[i];
+          break;
+        }
+
+      }
+
       html5QrCode.start(
-        devices[0].id,
+        camaraSeleccionada.id,
         {
           fps: 10,
           qrbox: 250
@@ -45,6 +64,11 @@ Html5Qrcode.getCameras()
           // Ignorar errores de lectura
         }
       );
+
+    } else {
+
+      document.getElementById("resultado").innerHTML =
+        "No se encontraron cámaras.";
 
     }
 
