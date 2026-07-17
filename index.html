@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
-<title>PRUEBA SIMPLE</title>
+<title>LAB V1</title>
 </head>
 
 <body>
 
-<h1>PRUEBA SIMPLE</h1>
+<h1>LAB V1</h1>
 
-<p>Si ves este texto, la página funciona.</p>
+<button id="btn">
+Abrir Cámara
+</button>
+
+<br><br>
+
+<video
+id="video"
+autoplay
+playsinline
+style="width:350px;border:1px solid black;">
+</video>
+
+<script>
+
+document
+.getElementById("btn")
+.addEventListener("click", async () => {
+
+  try {
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video: true
+      });
+
+    document
+      .getElementById("video")
+      .srcObject = stream;
+
+    alert("CAMARA ABIERTA");
+
+  }
+  catch(error) {
+
+    alert(error.message);
+
+  }
+
+});
+
+</script>
 
 </body>
 </html>
