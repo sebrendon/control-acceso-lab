@@ -28,6 +28,8 @@ const html5QrCode = new Html5Qrcode("reader");
 Html5Qrcode.getCameras()
 .then(cameras => {
 
+   alert(JSON.stringify(cameras));
+
   let cameraId = cameras[0].id;
 
   const trasera = cameras.find(c =>
