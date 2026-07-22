@@ -3,165 +3,22 @@
 
 <head>
 <meta charset="UTF-8">
-<title>LAB V5</title>
+<title>TEST QR</title>
 
-<script src="https://un3.8/html5-qrcode.min.js"></script>
-
-<style>
-
-body{
-  font-family: Arial, sans-serif;
-  text-align:center;
-  margin:20px;
-}
-
-#reader{
-  width:350px;
-  margin:auto;
-}
-
-#resultado{
-  margin-top:20px;
-  font-size:24px;
-  font-weight:bold;
-}
-
-.ok{
-  color:green;
-}
-
-.error{
-  color:red;
-}
-
-</style>
+rcode@2.3.8/html5-qrcode.min.js"></script>
 
 </head>
 
 <body>
 
-<h1>LAB V5</h1>
+<h1>TEST QR</h1>
 
-<div id="reader"></div>
-
-<h3>Resultado:</h3>
-
-<div id="resultado">
-Esperando lectura...
-</div>
+<div id="resultado">Iniciando...</div>
 
 <script>
 
-const WEBAPP_URL =
-"https://script.google.com/macros/s/AKfycbx6l8-zd_rrBwjknXYVkttxJKpZWCeNXTlJM3D2C1KdDGjvr3JlmlWoyaC2dHNmXO4U/exec";
-
-const html5QrCode = new Html5Qrcode("reader");
-
-Html5Qrcode.getCameras()
-.then(cameras => {
-
-  let cameraId = cameras[0].id;
-
-  let trasera = cameras.find(c =>
-    c.label === "Cámara trasera"
-  );
-
-  if (!trasera) {
-
-    trasera = cameras.find(c =>
-      c.label.toLowerCase().includes("trasera")
-    );
-
-  }
-
-  if (trasera) {
-    cameraId = trasera.id;
-  }
-
-  html5QrCode.start(
-    cameraId,
-    {
-      fps: 10,
-      qrbox: 250
-    },
-
-    async (decodedText) => {
-
-      document.getElementById("resultado").innerHTML =
-        "Validando: " + decodedText;
-
-      try {
-
-        const respuesta = await fetch(
-          WEBAPP_URL,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              nombre: decodedText
-            })
-          }
-        );
-
-        const resultado =
-          await respuesta.json();
-
-        if (!resultado.encontrado) {
-
-          document.getElementById("resultado").innerHTML =
-            "<div class='error'>❌ INVITADO NO ENCONTRADO</div>";
-
-        }
-        else if (resultado.autorizado) {
-
-          document.getElementById("resultado").innerHTML =
-            "<div class='ok'>" +
-            "✅ ACCESO AUTORIZADO<br><br>" +
-            resultado.nombre +
-            "<br><br>" +
-            resultado.usados +
-            " de " +
-            resultado.permitidos +
-            "</div>";
-
-        }
-        else {
-
-          document.getElementById("resultado").innerHTML =
-            "<div class='error'>" +
-            "❌ ACCESO DENEGADO<br><br>" +
-            resultado.nombre +
-            "</div>";
-
-        }
-
-      }
-      catch(error) {
-
-        document.getElementById("resultado").innerHTML =
-          "<div class='error'>ERROR: " +
-          error +
-          "</div>";
-
-      }
-
-    },
-
-    (errorMessage) => {
-      // ignorar errores de lectura
-    }
-
-  );
-
-})
-.catch(err => {
-
-  document.getElementById("resultado").innerHTML =
-    "ERROR: " + err;
-
-});
+document.getElementById("resultado").innerHTML =
+  "Html5Qrcode: " + typeof Html5Qrcode;
 
 </script>
 
