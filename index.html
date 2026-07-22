@@ -3,17 +3,46 @@
 
 <head>
 <meta charset="UTF-8">
-<title>LAB V4</title>
+<title>LAB V5</title>
 
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://un3.8/html5-qrcode.min.js"></script>
+
+<style>
+
+body{
+  font-family: Arial, sans-serif;
+  text-align:center;
+  margin:20px;
+}
+
+#reader{
+  width:350px;
+  margin:auto;
+}
+
+#resultado{
+  margin-top:20px;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.ok{
+  color:green;
+}
+
+.error{
+  color:red;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<h1>LAB V4</h1>
+<h1>LAB V5</h1>
 
-<div id="reader" style="width:350px;"></div>
+<div id="reader"></div>
 
 <h3>Resultado:</h3>
 
@@ -22,6 +51,9 @@ Esperando lectura...
 </div>
 
 <script>
+
+const WEBAPP_URL =
+"https://script.google.com/macros/s/AKfycbx6l8-zd_rrBwjknXYVkttxJKpZWCeNXTlJM3D2C1KdDGjvr3JlmlWoyaC2dHNmXO4U/exec";
 
 const html5QrCode = new Html5Qrcode("reader");
 
@@ -52,26 +84,30 @@ Html5Qrcode.getCameras()
       fps: 10,
       qrbox: 250
     },
-    (decodedText) => {
+
+    async (decodedText) => {
 
       document.getElementById("resultado").innerHTML =
-        decodedText;
+        "Validando: " + decodedText;
 
-    },
-    (errorMessage) => {
-      // Ignorar errores de lectura
-    }
-  );
+      try {
 
-})
-.catch(err => {
+        const respuesta = await fetch(
+          WEBAPP_URL,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              nombre: decodedText
+            })
+          }
+        );
 
-  document.getElementById("resultado").innerHTML =
-    "ERROR: " + err;
+        const resultado =
+          await respuesta.json();
 
-});
+        if (!resultado.encontrado) {
 
-</script>
-
-</body>
-</html>
+          document.
