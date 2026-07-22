@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>LAB V3</title>
+<title>LAB V4</title>
 
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
@@ -11,7 +11,7 @@
 
 <body>
 
-<h1>LAB V3</h1>
+<h1>LAB V4</h1>
 
 <div id="reader" style="width:350px;"></div>
 
@@ -28,14 +28,19 @@ const html5QrCode = new Html5Qrcode("reader");
 Html5Qrcode.getCameras()
 .then(cameras => {
 
-   alert(JSON.stringify(cameras));
-
   let cameraId = cameras[0].id;
 
-  const trasera = cameras.find(c =>
-    c.label.toLowerCase().includes("back") ||
-    c.label.toLowerCase().includes("rear")
+  let trasera = cameras.find(c =>
+    c.label === "Cámara trasera"
   );
+
+  if (!trasera) {
+
+    trasera = cameras.find(c =>
+      c.label.toLowerCase().includes("trasera")
+    );
+
+  }
 
   if (trasera) {
     cameraId = trasera.id;
@@ -54,6 +59,7 @@ Html5Qrcode.getCameras()
 
     },
     (errorMessage) => {
+      // Ignorar errores de lectura
     }
   );
 
