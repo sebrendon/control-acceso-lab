@@ -110,4 +110,60 @@ Html5Qrcode.getCameras()
 
         if (!resultado.encontrado) {
 
-          document.
+          document.getElementById("resultado").innerHTML =
+            "<div class='error'>❌ INVITADO NO ENCONTRADO</div>";
+
+        }
+        else if (resultado.autorizado) {
+
+          document.getElementById("resultado").innerHTML =
+            "<div class='ok'>" +
+            "✅ ACCESO AUTORIZADO<br><br>" +
+            resultado.nombre +
+            "<br><br>" +
+            resultado.usados +
+            " de " +
+            resultado.permitidos +
+            "</div>";
+
+        }
+        else {
+
+          document.getElementById("resultado").innerHTML =
+            "<div class='error'>" +
+            "❌ ACCESO DENEGADO<br><br>" +
+            resultado.nombre +
+            "</div>";
+
+        }
+
+      }
+      catch(error) {
+
+        document.getElementById("resultado").innerHTML =
+          "<div class='error'>ERROR: " +
+          error +
+          "</div>";
+
+      }
+
+    },
+
+    (errorMessage) => {
+      // ignorar errores de lectura
+    }
+
+  );
+
+})
+.catch(err => {
+
+  document.getElementById("resultado").innerHTML =
+    "ERROR: " + err;
+
+});
+
+</script>
+
+</body>
+</html>
