@@ -10,14 +10,32 @@
 
 <body>
 
-<h1>TEST QR</h1>
+<h1>LAB QR</h1>
 
-<div id="resultado">Iniciando...</div>
+<div id="reader" style="width:350px;"></div>
+
+<div id="resultado">
+Esperando lectura...
+</div>
 
 <script>
 
-document.getElementById("resultado").innerHTML =
-"Html5Qrcode: " + typeof Html5Qrcode;
+const html5QrCode =
+  new Html5Qrcode("reader");
+
+Html5Qrcode.getCameras()
+.then(cameras => {
+
+  document.getElementById("resultado").innerHTML =
+    "Cámaras encontradas: " + cameras.length;
+
+})
+.catch(err => {
+
+  document.getElementById("resultado").innerHTML =
+    "ERROR: " + err;
+
+});
 
 </script>
 
