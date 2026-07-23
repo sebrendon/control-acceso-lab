@@ -26,10 +26,35 @@ const html5QrCode =
 Html5Qrcode.getCameras()
 .then(cameras => {
 
-  document.getElementById("resultado").innerHTML =
-    "Cámaras encontradas: " + cameras.length;
+  let cameraId = cameras[0].id;
+
+  const trasera = cameras.find(c =>
+    c.label.toLowerCase().includes("trasera")
+  );
+
+  if (trasera) {
+    cameraId = trasera.id;
+  }
+
+  html5QrCode.start(
+    cameraId,
+    {
+      fps: 10,
+      qrbox: 250
+    },
+    (decodedText) => {
+
+      document.getElementById("resultado").innerHTML =
+        decodedText;
+
+    },
+    (errorMessage) => {
+      // Ignorar errores de lectura
+    }
+  );
 
 })
+  
 .catch(err => {
 
   document.getElementById("resultado").innerHTML =
