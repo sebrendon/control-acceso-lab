@@ -1,94 +1,23 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
-<title>LAB V6</title>
+<title>TEST QR</title>
 
-<script src="https:-qrcode.min.js"></script>
-
-<style>
-
-body{
-  font-family: Arial, sans-serif;
-  text-align:center;
-  margin:20px;
-}
-
-#reader{
-  width:350px;
-  margin:auto;
-}
-
-#resultado{
-  margin-top:20px;
-  font-size:24px;
-  font-weight:bold;
-}
-
-</style>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 </head>
 
 <body>
 
-<h1>LAB V6</h1>
+<h1>TEST QR</h1>
 
-<div id="reader"></div>
-
-<div id="resultado">
-Esperando lectura...
-</div>
+<div id="resultado">Iniciando...</div>
 
 <script>
 
-const html5QrCode =
-  new Html5Qrcode("reader");
-
-Html5Qrcode.getCameras()
-.then(cameras => {
-
-  let cameraId = cameras[0].id;
-
-  let trasera = cameras.find(c =>
-    c.label === "Cámara trasera"
-  );
-
-  if (!trasera) {
-
-    trasera = cameras.find(c =>
-      c.label.toLowerCase().includes("trasera")
-    );
-
-  }
-
-  if (trasera) {
-    cameraId = trasera.id;
-  }
-
-  html5QrCode.start(
-    cameraId,
-    {
-      fps: 10,
-      qrbox: 250
-    },
-    (decodedText) => {
-
-      document.getElementById("resultado").innerHTML =
-        decodedText;
-
-    },
-    (errorMessage) => {
-    }
-  );
-
-})
-.catch(err => {
-
-  document.getElementById("resultado").innerHTML =
-    "ERROR: " + err;
-
-});
+document.getElementById("resultado").innerHTML =
+"Html5Qrcode: " + typeof Html5Qrcode;
 
 </script>
 
