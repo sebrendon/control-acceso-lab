@@ -52,6 +52,10 @@ Html5Qrcode.getCameras()
 
   document.getElementById("resultado").innerHTML =
     "Validando: " + decodedText;
+    await html5QrCode.stop();
+
+document.getElementById("btnSiguiente").style.display =
+  "inline-block";
 
   try {
 
