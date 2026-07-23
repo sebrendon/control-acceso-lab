@@ -42,12 +42,59 @@ Html5Qrcode.getCameras()
       fps: 10,
       qrbox: 250
     },
-    (decodedText) => {
+    async (decodedText) => {
+
+  document.getElementById("resultado").innerHTML =
+    "Validando: " + decodedText;
+
+  try {
+
+    const respuesta = await fetch(
+      "https://script.google.com/macros/s/AKfycbx6l8-zd_rrBwjknXYVkttxJKpZWCeNXTlJM3D2C1KdDGjvr3JlmlWoyaC2dHNmXO4U/exec",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nombre: decodedText
+        })
+      }
+    );
+
+    const resultado = await respuesta.json();
+
+    if (!resultado.encontrado) {
 
       document.getElementById("resultado").innerHTML =
-        decodedText;
+        "❌ INVITADO NO ENCONTRADO";
 
-    },
+    } else if (resultado.autorizado) {
+
+      document.getElementById("resultado").innerHTML =
+        "✅ ACCESO AUTORIZADO<br><br>" +
+        resultado.nombre +
+        "<br><br>" +
+        resultado.usados +
+        " de " +
+        resultado.permitidos;
+
+    } else {
+
+      document.getElementById("resultado").innerHTML =
+        "❌ ACCESO DENEGADO<br><br>" +
+        resultado.nombre;
+
+    }
+
+  } catch(error) {
+
+    document.getElementById("resultado").innerHTML =
+      "ERROR: " + error;
+
+  }
+
+},
     (errorMessage) => {
       // Ignorar errores de lectura
     }
