@@ -49,18 +49,15 @@ Html5Qrcode.getCameras()
 
   try {
 
-    const respuesta = await fetch(
-      "https://script.google.com/macros/s/AKfycbx6l8-zd_rrBwjknXYVkttxJKpZWCeNXTlJM3D2C1KdDGjvr3JlmlWoyaC2dHNmXO4U/exec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          nombre: decodedText
-        })
-      }
-    );
+   const respuesta = await fetch(
+  "https://script.google.com/macros/s/AKfycbx6l8-zd_rrBwjknXYVkttxJKpZWCeNXTlJM3D2C1KdDGjvr3JlmlWoyaC2dHNmXO4U/exec",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      nombre: decodedText
+    })
+  }
+);
 
     const resultado = await respuesta.json();
 
